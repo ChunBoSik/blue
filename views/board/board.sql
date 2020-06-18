@@ -58,4 +58,5 @@ select a.*,(select count(*) from board_cont where board_idx=a.idx) as count from
 select * from board where idx = (select max(idx) from board where idx < 62); /* 다음글 */
 select * from board where idx = (select min(idx) from board where idx > 50); /* 이전글 */
 
+show tables;
 
