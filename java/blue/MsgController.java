@@ -85,6 +85,10 @@ public class MsgController {
       model.addAttribute("msg", "게시글이 삭제 되었습니다.");
       model.addAttribute("url", "/board/bList");
     }
+    else if(flag.equals("pInputOk")) {
+      model.addAttribute("msg", "자료실에 자료가 등록 되었습니다.");
+      model.addAttribute("url", "/pds/pList");
+    }
     
     
     

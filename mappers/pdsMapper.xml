@@ -10,4 +10,8 @@
     </if>
   </select>
   
+  <insert id="upLoad">
+    insert into pds2 (nickname,fname,rfname,title,part,fsize,opensw,content) values
+      (#{vo.nickname},#{vo.fname},#{vo.rfname},#{vo.title},#{vo.part},#{vo.fsize},#{vo.opensw},#{vo.content});
+  </insert>
 </mapper>

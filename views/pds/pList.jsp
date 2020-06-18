@@ -6,6 +6,19 @@
 <head>
   <meta charset="UTF-8">
   <title>pList.jsp</title>
+  <script>
+    function partCheck() {
+      var part = partForm.part.value;
+      location.href="${contextPath}/pds/pList?part="+part;
+    }
+  </script>
+  <!-- 스타일 페이징 처리 -->
+  <style>
+    #pagination {
+      display: table;
+      margin: 0 auto;
+    }
+  </style>
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/include/nav.jsp"></jsp:include>
@@ -13,22 +26,22 @@
 <div class="container">
   <table class="table table-borderless">
     <tr>
-      <td><font size=6><b>자 료 실 리 스 트</b></font></td>
+      <td colspan=2 align="center"><font size=6><b>자 료 실 리 스 트</b></font></td>
     </tr>
-    <tr>
-      <td>
+    <tr style="width:100%">
+      <td style="width:15%; text-align:left">
         <form name="partForm">
           <select name="part" onChange="partCheck()" class="form-control">
-            <option value="">전체</option>
-            <option value="학습">학습</option>
-            <option value="건강">건강</option>
-            <option value="여행">여행</option>
-            <option value="영화">영화</option>
-            <option value="기타">기타</option>
+            <option value="" <c:if test="${part == ''}"> selected </c:if>>전체</option>
+            <option value="학습" <c:if test="${part=='학습'}"> selected </c:if>>학습</option>
+            <option value="건강" <c:if test="${part=='건강'}"> selected </c:if>>건강</option>
+            <option value="여행" <c:if test="${part=='여행'}"> selected </c:if>>여행</option>
+            <option value="영화" <c:if test="${part=='영화'}"> selected </c:if>>영화</option>
+            <option value="기타" <c:if test="${part=='기타'}"> selected </c:if>>기타</option>
           </select>
         </form>
       </td>
-      <td>
+      <td style="width:85%; text-align:right">
         <button type="button" class="btn btn-secondary" onclick="location.href='${contextPath}/pds/pInput';">자료올리기</button>
       </td>
     </tr>

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.spring.blue.pagination.Criteria;
 import com.spring.blue.service.PdsService;
@@ -15,6 +16,8 @@ import com.spring.blue.vo.PdsVo;
 @Controller
 @RequestMapping("/pds")
 public class PdsController {
+  String flag;
+  
   @Autowired
   PdsService pdsService;
   
@@ -35,5 +38,18 @@ public class PdsController {
     //model.addAttribute("pageMaker", pageMaker);
     
     return "pds/pList";
+  }
+  
+  @RequestMapping(value="/pInput", method=RequestMethod.GET)
+  public String pInputGet() {
+    return "pds/pInput";
+  }
+  
+  @RequestMapping(value="/pInput", method=RequestMethod.POST)
+  public String pInputPost(MultipartFile file, PdsVo vo) {
+    pdsService.upLoad(file, vo);
+    
+    flag = "pInputOk";
+    return "redirect:/msg/" + flag;
   }
 }
