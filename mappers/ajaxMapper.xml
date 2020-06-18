@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.blue.dao.AjaxDao">
+  <select id="getProduct1" resultType="com.spring.blue.vo.Goods1Vo">
+    select * from goods1;
+  </select>
+  <select id="getProduct2" resultType="com.spring.blue.vo.Goods2Vo">
+    select * from goods2 where product1 = #{product1};
+  </select>
+  <select id="getProduct3" resultType="com.spring.blue.vo.Goods3Vo">
+    select * from goods3 where product2 = #{product2};
+  </select>
+</mapper>

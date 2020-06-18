@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.blue.dao.BoardDao">
+  <select id="bList" resultType="com.spring.blue.vo.BoardVo">
+    <!-- select * from board order by idx desc limit #{cri.pageStartIndexNum}, #{cri.pageSize}; -->
+    select a.*,(select count(*) from board_cont where board_idx=a.idx) as replyNum from board a order by idx desc limit #{cri.pageStartIndexNum}, #{cri.pageSize}; 
+  </select>
+  
+  <insert id="bInput">
+    insert into board (name,email,homepage,title,pwd,hostip,content)
+       values (#{vo.name},#{vo.email},#{vo.homepage},#{vo.title},#{vo.pwd},#{vo.hostip},#{vo.content});
+  </insert>
+  
+  <select id="nickCheck" resultType="com.spring.blue.vo.MemberVo">
+    select * from membership where nickname = #{snickname}; 
+  </select>
+  
+  <select id="totRecCnt" resultType="int">
+    select count(idx) from board;
+  </select>
+  
+  <select id="bContent" resultType="com.spring.blue.vo.BoardVo">
+    select * from board where idx = #{idx};
+  </select>
+
+  <update id="bReadNum">
+    update board set readnum=readnum+1 where idx=#{idx};
+  </update>
+
+  <select id="pwdCheck" resultType="com.spring.blue.vo.BoardVo">
+    select * from board where idx = #{idx} and pwd = #{pwd};
+  </select>
+  <delete id="bDelete">
+    delete from board where idx=#{idx} and pwd=#{pwd};
+  </delete> 
+  
+  <select id="contentSearch" resultType="String">
+    select content from board where idx = #{idx};
+  </select>
+   
+  <select id="bContView" resultType="com.spring.blue.vo.BoardContVo">
+    select * from board_cont where board_idx=#{idx} order by idx desc;
+  </select>
+  
+  <insert id="bContInput">
+    insert into board_cont (board_idx,nickname,hostip,content) values (#{bContVo.board_idx},#{bContVo.nickname},#{bContVo.hostip},#{bContVo.content});
+  </insert>
+  
+  <delete id="replyDel">
+    delete from board_cont where idx = #{idx};
+  </delete>
+  
+  <select id="getPre" resultType="com.spring.blue.vo.BoardVo">
+    select * from board where idx = (select min(idx) from board where idx > #{idx});
+  </select>
+  
+  <select id="getNext" resultType="com.spring.blue.vo.BoardVo">
+    select * from board where idx = (select max(idx) from board where idx &lt; #{idx});
+  </select>
+</mapper>

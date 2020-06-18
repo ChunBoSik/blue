@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.blue.dao.MemberDao">
+  <select id="idCheck" resultType="com.spring.blue.vo.MemberVo">
+    select * from membership where mid = #{mid}; 
+  </select>
+  
+  <select id="nickCheck" resultType="com.spring.blue.vo.MemberVo">
+    select * from membership where nickname = #{nickname}; 
+  </select>
+  
+  <insert id="mInput">
+    insert into membership values (default,#{vo.mid},#{vo.pwd},#{vo.name},#{vo.nickname},#{vo.gender},#{vo.tel},#{vo.hobby},#{vo.email},default,#{vo.userinfor},default,default,#{vo.content});
+  </insert>
+  
+  <select id="mLogin" resultType="com.spring.blue.vo.MemberVo">
+    select * from membership where mid = #{mid};
+  </select>
+
+  <select id="mList" resultType="com.spring.blue.vo.MemberVo">
+    select * from membership order by idx desc limit #{cri.pageStartIndexNum}, #{cri.pageSize};
+  </select>
+  
+  <select id="totRecCnt" resultType="int">
+    select count(idx) from membership;
+  </select>
+  
+  <update id="mDelete">
+    update membership set userdel='OK' where nickname = #{snickname};
+  </update>
+  
+  <delete id="delOkCheck">
+    delete from membership where idx = #{idx};
+  </delete>
+  
+  <select id="getUpdateSearch" resultType="com.spring.blue.vo.MemberVo">
+    select * from membership where nickname = #{snickname};
+  </select>
+  
+  <update id="mUpdate">
+    update membership set pwd=#{vo.pwd},name=#{vo.name},nickname=#{vo.nickname},gender=#{vo.gender},tel=#{vo.tel},hobby=#{vo.hobby},email=#{vo.email},userinfor=#{vo.userinfor},content=#{vo.content} where mid=#{vo.mid};
+  </update>
+</mapper>
