@@ -3,10 +3,10 @@
 <mapper namespace="com.spring.blue.dao.PdsDao">
   <select id="pList" resultType="com.spring.blue.vo.PdsVo">
     <if test="part == '' or part == null">
-      select * from pds2 order by idx desc;
+      select * from pds2 order by idx desc  limit #{cri.pageStartIndexNum}, #{cri.pageSize};
     </if>
     <if test="part != ''">
-	    select * from pds2 where part=#{part} order by idx desc;
+	    select * from pds2 where part=#{part} order by idx desc limit #{cri.pageStartIndexNum}, #{cri.pageSize};
     </if>
   </select>
   
@@ -14,4 +14,21 @@
     insert into pds2 (nickname,fname,rfname,title,part,fsize,opensw,content) values
       (#{vo.nickname},#{vo.fname},#{vo.rfname},#{vo.title},#{vo.part},#{vo.fsize},#{vo.opensw},#{vo.content});
   </insert>
+  
+  <select id="totRecCnt" resultType="int">
+    <if test="part == '' or part == null">
+      select count(idx) from pds2 order by idx desc;
+    </if>
+    <if test="part != ''">
+      select count(idx) from pds2 where part=#{part} order by idx desc;
+    </if>
+  </select>
+  
+  <select id="pContent" resultType="com.spring.blue.vo.PdsVo">
+    select * from pds2 where idx = #{idx};
+  </select>
+  
+  <update id="pDown">
+   update pds2 set downnum = downnum + 1 where idx = #{idx};
+  </update>
 </mapper>

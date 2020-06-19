@@ -1,5 +1,7 @@
 package com.spring.blue.service;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -14,6 +16,8 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.spring.blue.dao.PdsDao;
+import com.spring.blue.pagination.Criteria;
+import com.spring.blue.pagination.PageMaker;
 import com.spring.blue.vo.PdsVo;
 
 @Service
@@ -22,8 +26,8 @@ public class PdsServiceImp implements PdsService {
   PdsDao pdsDao;
 
   @Override
-  public ArrayList<PdsVo> pList(String part) {
-    return pdsDao.pList(part);
+  public ArrayList<PdsVo> pList(Criteria cri, String part) {
+    return pdsDao.pList(cri, part);
   }
 
   @Override
@@ -85,6 +89,56 @@ public class PdsServiceImp implements PdsService {
     
     return fileName;
   }
-  
+
+  @Override
+  public PageMaker getPageMaker(Criteria cri, int i, String part) {
+    int totRecCnt = pdsDao.totRecCnt(part);
+    
+    PageMaker pageMaker = new PageMaker();
+    pageMaker.setCriteria(cri);
+    pageMaker.setBlockSize(i);
+    pageMaker.setTotRecCnt(totRecCnt);
+    
+    return pageMaker;
+  }
+
+  @Override
+  public PdsVo pContent(int idx) {
+    return pdsDao.pContent(idx);
+  }
+
+  @Override
+  public void pDown(PdsVo vo) {
+    pdsDao.pDown(vo.getIdx());  // 다운로드 횟수 증가
+    
+    // 아래는 파일 다운로드 루틴
+    HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.currentRequestAttributes()).getRequest();
+    String uploadPath = request.getSession().getServletContext().getRealPath("/")+"resources\\pds\\";
+    
+    FileInputStream fis = null;
+    FileOutputStream fos = null;
+    try {
+      fis = new FileInputStream(uploadPath+vo.getRfname());
+      fos = new FileOutputStream(uploadPath+"imsi/"+vo.getFname());
+      
+      byte[] buffer = new byte[1024];
+      
+      int readCnt = 0;
+      while((readCnt=fis.read(buffer)) != -1) {
+        fos.write(buffer, 0, readCnt);
+      }
+    } catch (FileNotFoundException e) {
+      e.printStackTrace();
+    } catch (IOException e) {
+      e.printStackTrace();
+    } finally { 
+      try {
+        if(fis != null) fis.close();
+        if(fos != null) fos.close();
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+    }
+  }
   
 }

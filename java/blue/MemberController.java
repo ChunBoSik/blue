@@ -131,6 +131,7 @@ public class MemberController {
     return "membership/mList";
   }
   
+  // 관리자가 선택한 회원 강제 탈퇴처리
   @RequestMapping(value="/mList", method=RequestMethod.POST)
   public String mLoginPost(String delItems) {
     String[] idxs = delItems.split("/");

@@ -89,6 +89,10 @@ public class MsgController {
       model.addAttribute("msg", "자료실에 자료가 등록 되었습니다.");
       model.addAttribute("url", "/pds/pList");
     }
+    else if(flag.equals("pDownNo")) {
+      model.addAttribute("msg", "해당파일이 존재하지 않습니다.");
+      model.addAttribute("url", "/pds/pList");
+    }
     
     
     

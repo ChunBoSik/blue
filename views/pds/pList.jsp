@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
+<c:set var="scrNo" value="${pageMaker.totRecCnt - ((cri.page-1) * cri.pageSize)}"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,6 +12,16 @@
     function partCheck() {
       var part = partForm.part.value;
       location.href="${contextPath}/pds/pList?part="+part;
+    }
+    
+    function nWin(idx) {
+      var url = "${contextPath}/pds/pContent?idx="+idx;
+      var winX = 500;
+      var winY = 400;
+      var x = (window.screen.width)/2 - winX/2;
+      var y = (window.screen.height)/2 - winY/2;
+      
+      window.open(url,"pdsWin","width="+winX+",height="+winY+",left="+x+",top="+y);
     }
   </script>
   <!-- 스타일 페이징 처리 -->
@@ -62,20 +74,61 @@
     <tbody>
       <c:forEach var="vo" items="${vos}">
         <tr align="center">
-          <td>${vo.idx}</td>
-          <td>${vo.title}</td>
+          <td>${scrNo}</td>
+          <td>
+            <a href="javascript:nWin('${vo.idx}')">${vo.title}</a>
+          </td>
           <td>${vo.nickname}</td>
           <td>${vo.fdate}</td>
-          <td>${vo.fname}(${vo.fsize})</td>
+          <td>${vo.fname}(
+            <c:set var="fsize" value="${vo.fsize}"/>
+              <c:choose>
+                <c:when test="${fsize>=1024}">
+                  <c:set var="fsize" value="${fsize/1024}"/>
+                  <fmt:formatNumber value="${fsize}" pattern=".00"/>KB
+                </c:when>
+                <c:otherwise>
+                  ${fsize}Byte
+                </c:otherwise>
+              </c:choose>
+            
+            )</td>
           <td>${vo.part}</td>
           <td>${vo.downnum}</td>
-          <td><a href="">다운</a></td>
+          <td>
+            <c:set var="opensw" value="${vo.opensw}"/>
+            <c:choose>
+              <c:when test="${opensw eq '공개' || slevel eq 0 || snickname eq vo.nickname}">
+                <a href="${contextPath}/pds/pDown?idx=${vo.idx}&fname=${vo.fname}&rfname=${vo.rfname}">다운</a>
+              </c:when>
+              <c:otherwise>
+                [비공개]
+              </c:otherwise>
+            </c:choose>
+          </td>
         </tr>
+        <c:set var="scrNo" value="${scrNo-1}"/>
       </c:forEach>
     </tbody>
   </table>
   <p><br/></p>
-  <!-- 아래로 페이징 처리....하세요... -->
+  <!-- 페이징 처리 시작 -->
+  <div id="pagination">
+    <ul class="pagination">
+      <li class="page-item <c:if test="${!(pageMaker.preBtn)}">disabled</c:if>">
+        <a class="page-link" href="${contextPath}/pds/pList?page=${pageMaker.blockStartPage-1}&part=${part}">◁◁</a>
+      </li>
+      <c:forEach var="i" begin="${pageMaker.blockStartPage}" end="${pageMaker.blockEndPage}">
+        <li class="page-item <c:if test="${cri.page==i}">active</c:if>">
+          <a href="${contextPath}/pds/pList?page=${i}&part=${part}" class="page-link">${i}</a>
+        </li>
+      </c:forEach>
+      <li class="page-item <c:if test="${!(pageMaker.nextBtn)}">disabled</c:if>">
+        <a class="page-link" href="${contextPath}/pds/pList?page=${pageMaker.blockEndPage+1}&part=${part}">▷▷</a>
+      </li>
+    </ul>
+  </div>
+  <!-- 페이징 처리 끝 -->
 </div>
 <jsp:include page="/WEB-INF/views/include/footer.jsp"></jsp:include>
 </body>
