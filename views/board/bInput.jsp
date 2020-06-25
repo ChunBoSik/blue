@@ -42,7 +42,7 @@
       CKEDITOR.replace("content",{
         filebrowserUploadUrl: "${contextPath}/imageUpload",  /* 홈컨트롤러에 설정할 경로명 */
         height:500
-      })
+      });
     </script>
     <div class="form-group">
       <label for="pwd">글제목 : </label>

@@ -1,16 +1,21 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
-<jsp:include page="/WEB-INF/views/include/bs.jsp"></jsp:include>
-<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
-<jsp:include page="/WEB-INF/views/include/menuStyle.jsp"></jsp:include>
+<jsp:include page="/WEB-INF/views/include/bs.jsp"/>
+<jsp:include page="/WEB-INF/views/include/header.jsp"/>
+<jsp:include page="/WEB-INF/views/include/menuStyle.jsp"/>
 <script>
   function delMemberCheck() {
     var ans = confirm("정말로 탈퇴하시겠습니까?");
     if(ans) location.href="${contextPath}/member/mDelete";
   }
   function linkNo() {
-    alert("정회원 이상만 보실 수 있습니다.");
+    <c:if test="${snickname == null}">
+      location.href="${contextPath}/member/mLogin";
+    </c:if>
+    <c:if test="${slevel >= 4}">
+      alert("정회원 이상만 보실 수 있습니다.");
+    </c:if>
   }
 </script>
 <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
@@ -43,8 +48,8 @@
           <a href="#" class="dropbtn btn btn-Dark">학습방</a>
           <div class="dropdown-content">
             <a href="${contextPath}/ajax/ajaxTest">AjaxTest 1</a>
+            <a href="#">AjaxTest 2</a>
             <a href="${contextPath}/study/checkTest">체크박스연습</a>
-            <a href="#">Link 3</a>
           </div>
         </div>
         <div class="dropdown">
@@ -71,8 +76,8 @@
           <a href="#" class="dropbtn btn btn-Dark">학습방</a>
           <div class="dropdown-content">
             <a href="javascript:linkNo();">AjaxTest 1</a>
-            <a href="javascript:linkNo();">Link 2</a>
-            <a href="javascript:linkNo();">Link 3</a>
+            <a href="javascript:linkNo();">AjaxTest 2</a>
+            <a href="${contextPath}/study/checkTest">체크박스연습</a>
           </div>
         </div>
         <c:if test="${snickname != null}">

@@ -22,6 +22,12 @@
   <resources mapping="/ckeditor/images/**" location="/resources/ckeditor/images/" />
   <resources mapping="/ckeditor/images/src/**" location="/resources/ckeditor/images/src/" />
 
+  <!-- 자료실(pds)의 문서위치 매핑처리 -->
+  <resources mapping="/pds/**" location="/resources/pds/" />
+
+  <!-- 포토갤러리(photo)의 매핑처리 -->
+  <resources mapping="/photo/**" location="/resources/photo/" />
+
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
 	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<beans:property name="prefix" value="/WEB-INF/views/" />

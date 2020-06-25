@@ -93,19 +93,41 @@ public class MsgController {
       model.addAttribute("msg", "해당파일이 존재하지 않습니다.");
       model.addAttribute("url", "/pds/pList");
     }
+    else if(flag.equals("photoInputOk")) {
+      model.addAttribute("msg", "포토갤러리에 자료가 올려졌습니다.");
+      model.addAttribute("url", "/photo/photoList");
+    }
+    else if(flag.equals("photoInputNo")) {
+      model.addAttribute("msg", "포토갤러리에 사진이 없습니다.");
+      model.addAttribute("url", "/photo/photoInput");
+    }
+    else if(flag.equals("photoDelOk")) {
+      model.addAttribute("msg", "포토갤러리의 사진 내역이 삭제 되었습니다.");
+      model.addAttribute("url", "/photo/photoList");
+    }
     
     
     
     // 아래는 특정 매개변수가 추가로 넘어오는루틴들....
     //else if(flag.equals("levelCheckOk")) {
     else if(flag.substring(0,9).equals("bDeleteNo")) {
-      System.out.println("dddd: " + flag.substring(10));
       model.addAttribute("msg", "게시글의 비밀번호가 틀립니다.");
       model.addAttribute("url", "board/bContent?"+flag.substring(10));
     }
+    else if(flag.substring(0,10).equals("photoUpdOk")) {
+      model.addAttribute("msg", "갤러리의 내용이 수정되었습니다.");
+      model.addAttribute("url", "photo/photoContent?"+flag.substring(11));
+    }
+    else if(flag.substring(0,10).equals("photoUpdNo")) {
+      model.addAttribute("msg", "포토갤러리에 한장 이상의 사진이 필요합니다.");
+      model.addAttribute("url", "photo/photoUpd?"+flag.substring(11));
+    }
+    else if(flag.substring(0,13).equals("photoUpdReset")) {
+      model.addAttribute("msg", "포토갤러리에 수정된 내역이 없습니다.");
+      model.addAttribute("url", "photo/photoUpd?"+flag.substring(14));
+    }
     else if(flag.substring(0,12).equals("levelCheckOk")) {
       model.addAttribute("msg", "회원 등급이 수정 되었습니다.");
-      //model.addAttribute("url", "admin/amList");
       model.addAttribute("url", "admin/amList?"+flag.substring(13));
     }
     

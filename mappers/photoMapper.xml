@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.blue.dao.PhotoDao">
+  <select id="totRecCnt" resultType="int">
+    <if test="part == '' or part == null or part == '전체'">
+      select count(idx) from photoTitle order by idx desc;
+    </if>
+    <if test="part != '' and part != '전체'">
+      select count(idx) from photoTitle where part=#{part} order by idx desc;
+    </if>
+  </select>
+
+  <select id="photoTitleList" resultType="com.spring.blue.vo.PhotoTitleVo">
+    <if test="part == '' or part == null or part == '전체'">
+      select * from photoTitle order by idx desc  limit #{cri.pageStartIndexNum}, #{cri.pageSize};
+    </if>
+    <if test="part != '' and part != '전체'">
+      select * from photoTitle where part=#{part} order by idx desc limit #{cri.pageStartIndexNum}, #{cri.pageSize};
+    </if>
+  </select>
+  
+  <select id="photoTitleThumbList" resultType="com.spring.blue.vo.PhotoTitleVo">
+    <if test="part == '' or part == null or part == '전체'">
+      select * from photoTitle order by idx desc;
+    </if>
+    <if test="part != '' and part != '전체'">
+      select * from photoTitle where part=#{part} order by idx desc;
+    </if>
+  </select>
+  
+  <insert id="photoTitleInput">
+    insert into photoTitle values (default,#{ptVo.nickname},#{ptVo.part},#{ptVo.title},#{ptVo.thumbnail},#{ptVo.content});
+  </insert>
+  
+  <select id="getPhotoTitleIdx" resultType="int">
+    select max(idx) from photoTitle;
+  </select>
+  
+  <insert id="photoGalleryInput">
+    insert into photoGallery values (default,#{pgVo.photoIdx},#{pgVo.rfname});
+  </insert>
+  
+  <select id="photoTitleInfor" resultType="com.spring.blue.vo.PhotoTitleVo">
+    select * from photoTitle where idx = #{idx};
+  </select>
+  
+  <select id="photoGalleryInfor" resultType="com.spring.blue.vo.PhotoGalleryVo">
+    select * from photoGallery where photoIdx = #{idx};
+  </select>
+  
+  <delete id="photoGalleryDel">
+    delete from photoGallery where photoIdx = #{idx};
+  </delete>
+  
+  <update id="photoTitleUpd">
+    update photoTitle set part=#{ptVo.part}, title=#{ptVo.title}, thumbnail=#{ptVo.thumbnail}, content=#{ptVo.content} where idx=#{ptVo.idx};
+  </update>
+  
+  <!-- 다중쿼리사용시? root-context.xml의 DB연결부 뒤에다가 '&amp;allowMultiQueries=true'를 추가한다. -->
+  <delete id="photoDel">
+    delete from photoGallery where photoIdx = #{idx};
+    delete from photoTitle where idx = #{idx};
+  </delete>
+</mapper>
