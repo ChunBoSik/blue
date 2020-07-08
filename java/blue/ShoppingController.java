@@ -6,33 +6,43 @@ import java.util.Collections;
 
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.spring.blue.service.ShoppingService;
+
 @Controller
-@RequestMapping("/study")
-public class StudyController {
+@RequestMapping("/shopping")
+public class ShoppingController {
   String flag;
   
-  @RequestMapping(value="/checkTest", method=RequestMethod.GET)
-  public String checkTestGet() {
-    return "study/checkTest";
+  @Autowired
+  ShoppingService shoppingService;
+  
+  @RequestMapping(value="/admin/shopping/adminMain", method=RequestMethod.GET)
+  public String adminMainGet() {
+    return "admin/shopping/adminMain";
   }
   
-  @RequestMapping(value="/loginCheck", method=RequestMethod.GET)
-  public String loginCheckGet() {
-    return "study/loginCheck";
+  @RequestMapping(value="/admin/shopping/left",method=RequestMethod.GET)
+  public String shoppingLeftGet() {
+    return "admin/shopping/left";
   }
   
-  @RequestMapping(value="/shopping/product", method=RequestMethod.GET)
+  @RequestMapping(value="/admin/shopping/right",method=RequestMethod.GET)
+  public String shppingRightGet() {
+    return "admin/shopping/right";
+  }
+  
+  @RequestMapping(value="/product", method=RequestMethod.GET)
   public String productGet() {
-    // DB에서 상품목록 가져오기...
-    return "study/shopping/product/product";
+    return "admin/shopping/product/product";
   }
   
-  @RequestMapping(value="/shopping/product", method=RequestMethod.POST)
+  @RequestMapping(value="/product", method=RequestMethod.POST)
   public String productPost(HttpSession session, String product) throws UnsupportedEncodingException {
     ArrayList<String> productList = (ArrayList<String>) (session.getAttribute("productList"));
     
@@ -46,7 +56,7 @@ public class StudyController {
     return "redirect:/msg/" + flag;
   }
   
-  @RequestMapping(value="/shopping/cart", method=RequestMethod.GET)
+  @RequestMapping(value="/cart", method=RequestMethod.GET)
   public String cartGet(HttpSession session, Model model) {
     ArrayList<String> productList = (ArrayList) (session.getAttribute("productList"));
     if(productList == null || productList.size() == 0) {
@@ -56,44 +66,44 @@ public class StudyController {
     else {
       Collections.sort(productList);  // ArrayList자료 정렬하기
       model.addAttribute("vos", productList);
-      return "study/shopping/product/cart";
+      return "admin/shopping/product/cart";
     }
   }
   
-  @RequestMapping(value="/shopping/productAdd", method=RequestMethod.GET)
+  @RequestMapping(value="/productAdd", method=RequestMethod.GET)
   public String productAddGet(HttpSession session, String product) {
     ArrayList<String> productList = (ArrayList) (session.getAttribute("productList"));
     productList.add(product);
     session.setAttribute("productList", productList);
     
-    return "redirect:/study/shopping/cart";
+    return "redirect:/shopping/cart";
   }
   
-  @RequestMapping(value="/shopping/productDel", method=RequestMethod.GET)
+  @RequestMapping(value="/productDel", method=RequestMethod.GET)
   public String productDelGet(HttpSession session, String product) {
     ArrayList<String> productList = (ArrayList) (session.getAttribute("productList"));
     productList.remove(product);
     
-    return "redirect:/study/shopping/cart";
+    return "redirect:/shopping/cart";
   }
   
-  @RequestMapping(value="/shopping/productGroupDel", method=RequestMethod.GET)
+  @RequestMapping(value="/productGroupDel", method=RequestMethod.GET)
   public String productGroupDelGet(HttpSession session, String product) {
-    //System.out.println("product : " + product);
+    System.out.println("product : " + product);
     ArrayList<String> productArr = new ArrayList<String>();
     productArr.add(product);
     ArrayList<String> productList = (ArrayList) (session.getAttribute("productList"));
     productList.removeAll(productArr);
     
-    return "redirect:/study/shopping/cart";
+    return "redirect:/shopping/cart";
   }
   
-  @RequestMapping(value="/shopping/order", method=RequestMethod.GET)
+  @RequestMapping(value="/order", method=RequestMethod.GET)
   public String orderGet() {
-    return "study/shopping/product/order";
+    return "admin/shopping/product/order";
   }
   
-  @RequestMapping(value="/shopping/order", method=RequestMethod.POST)
+  @RequestMapping(value="/order", method=RequestMethod.POST)
   public String paymentOkGet(HttpSession session) {
     session.removeAttribute("productList");
     
@@ -101,7 +111,7 @@ public class StudyController {
     return "redirect:/msg/" + flag;
   }
 
-  @RequestMapping(value="/shopping/orderReset", method=RequestMethod.GET)
+  @RequestMapping(value="/orderReset", method=RequestMethod.GET)
   public String orderReset(HttpSession session) {
     session.removeAttribute("productList");
     

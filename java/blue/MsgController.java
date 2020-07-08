@@ -105,6 +105,22 @@ public class MsgController {
       model.addAttribute("msg", "포토갤러리의 사진 내역이 삭제 되었습니다.");
       model.addAttribute("url", "/photo/photoList");
     }
+    else if(flag.equals("mailSendOk")) {
+      model.addAttribute("msg", "성공적으로 메일이 발송되었습니다.");
+      model.addAttribute("url", "/mail/mailForm");
+    }
+    else if(flag.equals("productNo")) {
+      model.addAttribute("msg", "장바구니에 구매하신 물품이 없습니다.");
+      model.addAttribute("url", "study/shopping/product");
+    }
+    else if(flag.equals("orderReset")) {
+      model.addAttribute("msg", "주문이 취소 되었습니다.");
+      model.addAttribute("url", "study/shopping/product");
+    }
+    else if(flag.equals("paymentOk")) {
+      model.addAttribute("msg", "결제가 완료 되었습니다.\\n구매상품은 '주문조회'에서 확인하세요!");
+      model.addAttribute("url", "study/shopping/product");
+    }
     
     
     
@@ -113,6 +129,10 @@ public class MsgController {
     else if(flag.substring(0,9).equals("bDeleteNo")) {
       model.addAttribute("msg", "게시글의 비밀번호가 틀립니다.");
       model.addAttribute("url", "board/bContent?"+flag.substring(10));
+    }
+    else if(flag.substring(0,9).equals("porductOk")) {
+      model.addAttribute("msg", "구매품목("+flag.substring(10)+")이 장바구니에 담겼습니다.");
+      model.addAttribute("url", "study/shopping/cart");
     }
     else if(flag.substring(0,10).equals("photoUpdOk")) {
       model.addAttribute("msg", "갤러리의 내용이 수정되었습니다.");

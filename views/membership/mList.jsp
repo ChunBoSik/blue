@@ -112,20 +112,20 @@
             <a href="javascript:nWin('${vo.mid}')">${vo.nickname}</a>
           </td>
           <td>
-            <c:if test="${vo.userinfor eq 'OK' || slevel == 0}">${vo.name}</c:if>
-            <c:if test="${vo.userinfor ne 'OK' && slevel != 0}">비공개</c:if>
+            <c:if test="${vo.userinfor eq 'OK' || slevel == 0 || snickname == vo.nickname}">${vo.name}</c:if>
+            <c:if test="${vo.userinfor ne 'OK' && slevel != 0 && snickname != vo.nickname}">비공개</c:if>
           </td>
           <td>
-            <c:if test="${vo.userinfor eq 'OK' || slevel == 0}">${vo.gender}</c:if>
-            <c:if test="${vo.userinfor ne 'OK' && slevel != 0}">비공개</c:if>
+            <c:if test="${vo.userinfor eq 'OK' || slevel == 0 || snickname == vo.nickname}">${vo.gender}</c:if>
+            <c:if test="${vo.userinfor ne 'OK' && slevel != 0 && snickname != vo.nickname}">비공개</c:if>
           </td>
           <td>
-            <c:if test="${vo.userinfor eq 'OK' || slevel == 0}">${vo.tel}</c:if>
-            <c:if test="${vo.userinfor ne 'OK' && slevel != 0}">비공개</c:if>
+            <c:if test="${vo.userinfor eq 'OK' || slevel == 0 || snickname == vo.nickname}">${vo.tel}</c:if>
+            <c:if test="${vo.userinfor ne 'OK' && slevel != 0 && snickname != vo.nickname}">비공개</c:if>
           </td>
           <td>
-            <c:if test="${vo.userinfor eq 'OK' || slevel == 0}">${fn:substring(vo.joinday,0,10)}</c:if>
-            <c:if test="${vo.userinfor ne 'OK' && slevel != 0}">비공개</c:if>
+            <c:if test="${vo.userinfor eq 'OK' || slevel == 0 || snickname == vo.nickname}">${fn:substring(vo.joinday,0,10)}</c:if>
+            <c:if test="${vo.userinfor ne 'OK' && slevel != 0 && snickname != vo.nickname}">비공개</c:if>
           </td>
           <c:if test="${slevel == 0}">
             <td>

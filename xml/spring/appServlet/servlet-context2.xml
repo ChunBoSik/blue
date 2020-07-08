@@ -35,46 +35,46 @@
 	</beans:bean>
 	
 	<!-- 인터셉터 선언 -->
-  <!-- <beans:bean id="homeInterceptor" class="com.spring.blue.interceptor.HomeInterceptor"/> -->
+  <beans:bean id="homeInterceptor" class="com.spring.blue.interceptor.HomeInterceptor"/>
   <beans:bean id="boardInterceptor" class="com.spring.blue.interceptor.BoardInterceptor"/>
   <beans:bean id="pdsInterceptor" class="com.spring.blue.interceptor.PdsInterceptor"/>
   <beans:bean id="photoInterceptor" class="com.spring.blue.interceptor.PhotoInterceptor"/>
   <beans:bean id="studyInterceptor" class="com.spring.blue.interceptor.StudyInterceptor"/>
   <beans:bean id="memberInterceptor" class="com.spring.blue.interceptor.MemberInterceptor"/>
 	
-	 <!-- 인터셉터의 용도(url과의 매핑처리) -->
-	 <!-- 홈인터셉터 설정(초기사이트에 접근제어) -->
+	<!-- 인터셉터의 용도(url과의 매핑처리) -->
+	<!-- 홈인터셉터 설정(초기사이트에 접근제어) -->
 	<interceptors>
 	  <interceptor>
 	    <mapping path="/**"/>
 	    <beans:ref bean="homeInterceptor"/>
 	  </interceptor>
 	
-   <!-- 게시판 인터셉터 설정 -->
+  <!-- 게시판 인터셉터 설정 -->
     <interceptor>
       <mapping path="/board/**"/>
       <beans:ref bean="boardInterceptor"/>
     </interceptor>
   
-   <!-- 자료실 인터셉터 설정 -->
+  <!-- 자료실 인터셉터 설정 -->
     <interceptor>
       <mapping path="/pds/**"/>
       <beans:ref bean="pdsInterceptor"/>
     </interceptor>
 
-   <!-- 사진갤러리 인터셉터 설정 -->
+  <!-- 사진갤러리 인터셉터 설정 -->
     <interceptor>
       <mapping path="/photo/**"/>
       <beans:ref bean="photoInterceptor"/>
     </interceptor>
 
-   <!-- 학습방 인터셉터 설정 -->
+  <!-- 학습방 인터셉터 설정 -->
     <interceptor>
       <mapping path="/study/**"/>
       <beans:ref bean="studyInterceptor"/>
     </interceptor>
 
-   <!-- 멤버방 인터셉터 설정 -->
+  <!-- 멤버방 인터셉터 설정 -->
     <interceptor>
       <mapping path="/member/**"/>
       <beans:ref bean="memberInterceptor"/>
