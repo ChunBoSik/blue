@@ -33,14 +33,15 @@
       }
     }
     
-    // 댓글삭제처리(Ajax처리)
+    // 댓글삭제처리(Ajax처리) - 첫번째 댓글만 지워지는 문제가 있음...
     $(document).ready(function() {
-      $(".replyDel").click(function(){
+      $(".replyDel").click(function(contIdx){
         var ans = confirm("정말로 댓글을 삭제하시겠습니까?");
         if(!ans) return false;
         
         // aJax를 이용한 댓글처리
-        var query = {idx : $("#idx").val()};
+        /* var query = {idx : $("#idx").val()}; */
+        var query = {idx : $(".replyDel").val()};
         
         $.ajax({
           url : "${contextPath}/board/replyDel",
@@ -55,6 +56,26 @@
         }); // aJax종료
       });   //jQuery 종료
     });     // 스크립트 종료
+    
+    // 댓글삭제처리(앞의 Ajax보완)
+    function contDelCheck(contIdx) {
+      var query = {idx : contIdx};
+      var ans = confirm("정말로 댓글을 삭제하시겠습니까?");
+      if(!ans) return false;
+      
+      // aJax를 이용한 댓글처리
+      $.ajax({
+        url : "${contextPath}/board/replyDel",
+        type : "get",
+        data : query,
+        success : function(data) {
+          if(data == 1) {
+            alert("댓글이 삭제되었습니다.");
+            location.reload();
+          }
+        }
+      }); // aJax종료
+    }
   </script>
 </head>
 <body>
@@ -134,7 +155,8 @@
         <td>
           ${cvo.wdate}
           <c:if test="${snickname eq cvo.nickname || slevel == 0}">
-            <button type="button" class="replyDel btn btn-primary btn-sm" id="idx" value="${cvo.idx}">삭제</button>
+            <%-- <button type="button" class="replyDel btn btn-primary btn-sm" id="idx" value="${cvo.idx}">삭제</button> --%>
+            <a href="javascript:contDelCheck(${cvo.idx})" class="btn btn-primary btn-sm" id="idx"">삭제</a>
           </c:if>
         </td>
       </tr>

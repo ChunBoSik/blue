@@ -28,4 +28,12 @@ public interface MemberService {
 
   public void mUpdate(MemberVo vo);
 
+  public void pointPlus(String pointIn, String nickname);
+
+  public void pointMinus(int pointUse, String nickname);
+
+  public int getPoint(String nickname);
+
+  public String getGender(String nickname);
+
 }

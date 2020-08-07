@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.blue.dao.ScheduleDao">
+  <select id="scheduleContent" resultType="com.spring.blue.vo.ScheduleVo">
+    <!-- select * from schedule where sdate=#{ymd} and mid=#{mid}; -->
+    select * from schedule where mid=#{mid};
+  </select>
+  
+  <select id="getContent" resultType="com.spring.blue.vo.ScheduleVo">
+    select * from schedule where sdate=#{ymd} and mid=#{mid};
+  </select>
+  
+  <insert id="setContent">
+    insert into schedule values (default, #{vo.mid}, #{vo.sdate}, #{vo.memory}, #{vo.title}, #{vo.content});
+  </insert>
+  
+  <delete id="scheduleDel">
+    delete from schedule where idx = #{idx};
+  </delete>
+  
+  <update id="setUpdate">
+    update schedule set memory=#{vo.memory}, title=#{vo.title}, content=#{vo.content} where idx=#{vo.idx};
+  </update>
+</mapper>

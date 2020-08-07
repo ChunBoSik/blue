@@ -10,7 +10,7 @@
   </select>
   
   <insert id="mInput">
-    insert into membership values (default,#{vo.mid},#{vo.pwd},#{vo.name},#{vo.nickname},#{vo.gender},#{vo.tel},#{vo.hobby},#{vo.email},default,#{vo.userinfor},default,default,#{vo.content});
+    insert into membership values (default,#{vo.mid},#{vo.pwd},#{vo.name},#{vo.nickname},#{vo.gender},#{vo.tel},#{vo.hobby},#{vo.email},default,#{vo.userinfor},default,default,#{vo.content},default,#{vo.zipcode},#{vo.addr_master},#{vo.addr_detail});
   </insert>
   
   <select id="mLogin" resultType="com.spring.blue.vo.MemberVo">
@@ -38,6 +38,22 @@
   </select>
   
   <update id="mUpdate">
-    update membership set pwd=#{vo.pwd},name=#{vo.name},nickname=#{vo.nickname},gender=#{vo.gender},tel=#{vo.tel},hobby=#{vo.hobby},email=#{vo.email},userinfor=#{vo.userinfor},content=#{vo.content} where mid=#{vo.mid};
+    update membership set pwd=#{vo.pwd},name=#{vo.name},nickname=#{vo.nickname},gender=#{vo.gender},tel=#{vo.tel},hobby=#{vo.hobby},email=#{vo.email},userinfor=#{vo.userinfor},content=#{vo.content},zipcode=#{vo.zipcode},addr_master=#{vo.addr_master},addr_detail=#{vo.addr_detail} where mid=#{vo.mid};
   </update>
+  
+  <update id="pointMinus">
+    update membership set point=point-#{pointUse} where nickname=#{nickname};
+  </update>
+
+  <update id="pointPlus">
+    update membership set point=point+#{pointIn} where nickname=#{nickname};
+  </update>
+  
+  <select id="getPoint" resultType="int">
+    select point from membership where nickname=#{nickname};
+  </select>
+  
+  <select id="getGender" resultType="String">
+    select gender from membership where nickname=#{nickname};
+  </select>
 </mapper>

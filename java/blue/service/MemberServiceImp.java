@@ -73,5 +73,25 @@ public class MemberServiceImp implements MemberService {
   public void mUpdate(MemberVo vo) {
     memberDao.mUpdate(vo);
   }
+
+  @Override
+  public void pointPlus(String pointIn, String nickname) {
+    memberDao.pointPlus(pointIn, nickname);
+  }
+
+  @Override
+  public void pointMinus(int pointUse, String nickname) {
+    memberDao.pointMinus(pointUse, nickname);
+  }
+
+  @Override
+  public int getPoint(String nickname) {
+    return memberDao.getPoint(nickname);
+  }
+
+  @Override
+  public String getGender(String nickname) {
+    return memberDao.getGender(nickname);
+  }
   
 }

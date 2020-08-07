@@ -59,8 +59,8 @@ function myAccFunc3() {
       상품관리 <i class="fa fa-caret-down"></i>
     </a>
     <div id="demoAcc1" class="w3-bar-block w3-hide w3-padding-large w3-medium">
-      <a href="${contextPath}/admin/productInput" class="w3-bar-item w3-button w3-light-grey" target="right"><i class="fa fa-caret-right w3-margin-right">상품등록</i></a>
-      <a href="${contextPath}/admin/productList" class="w3-bar-item w3-button w3-light-grey" target="right"><i class="fa fa-caret-right w3-margin-right">상품목록</i></a>
+      <a href="${contextPath}/shopping/admin/shopping/productInput" class="w3-bar-item w3-button w3-light-grey" target="right"><i class="fa fa-caret-right w3-margin-right">상품등록</i></a>
+      <a href="${contextPath}/shopping/admin/shopping/productList" class="w3-bar-item w3-button w3-light-grey" target="right"><i class="fa fa-caret-right w3-margin-right">상품목록</i></a>
     </div>    
     <a onclick="myAccFunc2()" href="javascript:void(0)" class="w3-button w3-block w3-white w3-left-align" id="myBtn2" target="right">
       문의사항 <i class="fa fa-caret-down"></i>

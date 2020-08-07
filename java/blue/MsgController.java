@@ -109,6 +109,22 @@ public class MsgController {
       model.addAttribute("msg", "성공적으로 메일이 발송되었습니다.");
       model.addAttribute("url", "/mail/mailForm");
     }
+//    else if(flag.equals("setContentOk")) {
+//      model.addAttribute("msg", "스케줄이 등록되었습니다.");
+//      model.addAttribute("url", "/schedule/calendar");
+//    }
+    else if(flag.equals("notAdmin")) {
+      model.addAttribute("msg", "관리자만 접근이 가능한 페이지입니다!");
+      model.addAttribute("url", "member/mLogin");
+    }
+    else if(flag.equals("notLogin")) {
+      model.addAttribute("msg", "회원만 이용 가능합니다. 로그인 해주세요!");
+      model.addAttribute("url", "member/mLogin");
+    }
+    else if(flag.equals("scheduleDelOk")) {
+      model.addAttribute("msg", "선택한 일정이 삭제되었습니다.");
+      model.addAttribute("url", "/schedule/calendar");
+    }
     else if(flag.equals("productNo")) {
       model.addAttribute("msg", "장바구니에 구매하신 물품이 없습니다.");
       model.addAttribute("url", "study/shopping/product");
@@ -120,6 +136,58 @@ public class MsgController {
     else if(flag.equals("paymentOk")) {
       model.addAttribute("msg", "결제가 완료 되었습니다.\\n구매상품은 '주문조회'에서 확인하세요!");
       model.addAttribute("url", "study/shopping/product");
+    }
+    else if(flag.equals("adminProductInputOk")) {
+      model.addAttribute("msg", "물품이 등록되지 않았습니다.");
+      model.addAttribute("url", "shopping/admin/shopping/product/productList");
+    }
+    else if(flag.equals("adminProductInputNo")) {
+      model.addAttribute("msg", "물품이 등록되지 않았습니다.");
+      model.addAttribute("url", "shopping/admin/shopping/product/productInput");
+    }
+    else if(flag.equals("productInputOk")) {
+      model.addAttribute("msg", "상품이 등록되었습니다.");
+      model.addAttribute("url", "shopping/admin/shopping/product2/productList");
+    }
+    else if(flag.equals("optionInput")) {
+      model.addAttribute("msg", "상품옵션이 등록되었습니다.");
+      model.addAttribute("url", "shopping/admin/shopping/product2/productList");
+    }
+    else if(flag.equals("inputCategory")) {
+      model.addAttribute("msg", "대분류가 등록되었습니다.");
+      model.addAttribute("url", "shopping/admin/shopping/product2/category");
+    }
+    else if(flag.equals("deleteCategory")) {
+      model.addAttribute("msg", "대분류가 삭제되었습니다.");
+      model.addAttribute("url", "shopping/admin/shopping/product2/category");
+    }
+    else if(flag.equals("inputCategoryFail")) {
+      model.addAttribute("msg", "대분류코드 또는 대분류이름은 중복될 수 없습니다. 다시 등록하세요.");
+      model.addAttribute("url", "shopping/admin/shopping/product2/category");
+    }
+    else if(flag.equals("deleteDivision")) {
+      model.addAttribute("msg", "중분류가 삭제되었습니다.");
+      model.addAttribute("url", "shopping/admin/shopping/product2/division");
+    }
+    else if(flag.equals("inputDivision")) {
+      model.addAttribute("msg", "중분류가 등록되었습니다.");
+      model.addAttribute("url", "shopping/admin/shopping/product2/division");
+    }
+    else if(flag.equals("inputDivisionFail")) {
+      model.addAttribute("msg", "중분류코드 또는 중분류이름은 중복될 수 없습니다. 다시 등록하세요.");
+      model.addAttribute("url", "shopping/admin/shopping/product2/division");
+    }
+    else if(flag.equals("orderDone")) {
+      model.addAttribute("msg", "주문이 완료되었습니다.");
+      model.addAttribute("url", "shopping/admin/shopping/product2/recentorder");
+    }
+    else if(flag.equals("orderStateUpdate")) {
+      model.addAttribute("msg", "주문상태가 변경되었습니다.");
+      model.addAttribute("url", "shopping/admin/shopping/product2/orderList");
+    }
+    else if(flag.equals("allStateUpdate")) {
+      model.addAttribute("msg", "주문상태가 일괄변경되었습니다.");
+      model.addAttribute("url", "shopping/admin/shopping/product2/orderList");
     }
     
     
@@ -149,6 +217,18 @@ public class MsgController {
     else if(flag.substring(0,12).equals("levelCheckOk")) {
       model.addAttribute("msg", "회원 등급이 수정 되었습니다.");
       model.addAttribute("url", "admin/amList?"+flag.substring(13));
+    }
+    else if(flag.substring(0,12).equals("setContentOk")) {
+      model.addAttribute("msg", "스케줄이 등록되었습니다.");
+      model.addAttribute("url", "schedule/calendar?"+flag.substring(13));
+    }
+    else if(flag.substring(0, 9).equals("cartInput")) {
+      model.addAttribute("msg", "상품이 장바구니에 담겼습니다.");
+      model.addAttribute("url", "shopping/admin/shopping/product2/mContent?"+flag.substring(10));
+    }
+    else if(flag.substring(0, 11).equals("reviewInput")) {
+      model.addAttribute("msg", "리뷰 감사합니다. 50P가 적립되었습니다!^^");
+      model.addAttribute("url", "shopping/admin/shopping/product2/myorder?"+flag.substring(12));
     }
     
     return "include/msg";

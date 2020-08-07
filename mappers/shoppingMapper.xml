@@ -1,5 +1,232 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.spring.blue.dao.ShoppingDao">
+  <select id="getProductSearch" resultType="com.spring.blue.vo.SectionVo">
+	  select * from section where catename like concat('%',#{searchString},'%') or diviname like concat('%',#{searchString},'%') or sectname like concat('%',#{searchString},'%') or product like concat('%',#{searchString},'%') order by idx;
+  </select>
+  
+  <select id="getCateName" resultType="String">
+    select catename from category order by catecode;
+  </select>
+  
+  <select id="getdiviName" resultType="String">
+    select diviname from division where catename=#{selectCate} order by divicode;
+  </select>
+  
+  <insert id="productInput">
+    insert into section (product,sectname,diviname,catename,fname,rfname,fsize,content,mainprice,detail)
+           values (#{vo.product},#{vo.sectname},#{vo.diviname},#{vo.catename},#{vo.fname},#{vo.rfname},#{vo.fsize},#{vo.content},#{vo.mainprice},#{vo.detail});
+  </insert>
+  
+  <select id="getList" resultType="com.spring.blue.vo.SectionVo">
+    select * from section
+      <if test="selectState == 'salenum'">
+        order by salenum desc;
+      </if>
+      <if test="selectState == 'product'">
+        order by product;
+      </if>
+  </select>
+  
+  <select id="getIndiNameList" resultType="String">
+    select indiname from individual where sectname=#{sectname};
+  </select>
+  
+  <select id="getSectname" resultType="String">
+    select distinct sectname from section;
+  </select>
+  
+  <select id="getCategoryList" resultType="com.spring.blue.vo.CategoryVo">
+    select * from category order by catecode;
+  </select>
+  
+  <select id="checkCategory" resultType="String">
+    select catecode from category where catecode = #{vo.catecode} or catename = #{vo.catename};
+  </select>
+  
+  <insert id="inputCategory">
+    insert into category values (#{vo.catecode},#{vo.catename});
+  </insert>
+  
+  <delete id="deleteCategory">
+    delete from category where catecode=#{catecode};
+  </delete>
+  
+  <select id="getdivisionVo" resultType="com.spring.blue.vo.DivisionVo">
+    select * from division where catename = #{catename} order by divicode;
+  </select>
+  
+  <delete id="deleteDivision">
+    delete from division where divicode=#{divicode} and catename = #{catename};
+  </delete>
+  
+  <select id="checkDivision" resultType="String">
+    select divicode from division where (divicode=#{vo.divicode} or diviname=#{vo.diviname}) and catename=#{vo.catename}
+  </select>
+  
+  <insert id="inputDivision">
+    insert into division values (#{vo.divicode},#{vo.diviname},#{vo.catename});
+  </insert>
+  
+  <select id="getShoppingList" resultType="com.spring.blue.vo.SectionVo">
+    <if test="categoryname == '신 상 품' or categoryname == '' or categoryname == null">
+      <!-- select * from section order by idx desc  limit #{cri.pageStartIndexNum}, #{cri.pageSize}; -->
+      select * from section order by idx desc;
+    </if>
+    <if test="categoryname != ''">
+      <!-- select * from section where catename=#{categoryname} order by idx desc limit #{cri.pageStartIndexNum}, #{cri.pageSize}; -->
+      select * from section where catename=#{categoryname} order by idx desc;
+    </if>
+    select * from section order by idx desc;
+  </select>
+  
+  <select id="getContent" resultType="com.spring.blue.vo.SectionVo">
+    select * from section where idx=#{idx};
+  </select>
+  
+  <select id="getRelList" resultType="com.spring.blue.vo.SectionVo">
+    select * from section where sectname = #{sectname};
+  </select>
+  
+  <select id="getProductIdx" resultType="int">
+    select idx from section where product=#{product};
+  </select>
+  
+  <insert id="cartInput">
+    insert into cart (nickname, productIdx, optionIdx, optionNum ) values (#{vo.nickname}, #{vo.productIdx}, #{vo.optionIdx}, #{vo.optionNum});
+  </insert>
+  
+  <select id="checkCart" resultType="com.spring.blue.vo.CartVo">
+    select idx from cart where nickname=#{vo.nickname} and productIdx=#{vo.productIdx} and optionIdx=#{vo.optionIdx};
+  </select>
+  
+  <update id="updateCart">
+    update cart set optionNum=#{vo.optionNum} where idx=#{chkIdx};
+  </update>
+  
+  <select id="getCartList" resultType="com.spring.blue.vo.CartVo">
+    select * from cart where nickname = #{nickname} order by idx;
+  </select>
+  
+  <select id="getProduct" resultType="String">
+    select product from section where idx=#{productIdx};
+  </select>
+  
+  <select id="getRfname" resultType="String">
+    select rfname from section where product=#{product};
+  </select>
+  
+  <update id="updateNumber">
+    update cart set optionNum=#{optionNum} where idx=#{idx};
+  </update>
+  
+  <delete id="cartDel">
+    delete from cart where idx=#{idx};
+  </delete>
+  
+  <delete id="deleteCart">
+    delete from cart where nickname=#{nickname} and productIdx=#{productIdx} and optionIdx=#{optionIdx};
+  </delete>
+  
+  <select id="getCartListIdx" resultType="com.spring.blue.vo.CartVo">
+    select * from cart where idx = #{idx};
+  </select>
+  
+  <update id="updateSalenum">
+    update section set salenum = salenum + #{quantity} where product=#{product};
+  </update>
+  
+  <insert id="orderlistInput">
+    insert into orderlist values (default, #{orderlistVo.nickname}, #{orderlistVo.name}, #{orderlistVo.address}, #{orderlistVo.zipcode}, #{orderlistVo.tel}, #{orderlistVo.orderinfo}, #{orderlistVo.totalPay}, #{orderlistVo.paymethod}, #{orderlistVo.card}, #{orderlistVo.bank}, #{orderlistVo.depositName}, #{orderlistVo.request}, default, default, default, default, #{orderlistVo.pointUse}, #{orderlistVo.post});
+  </insert>
+  
+  <select id="countOrderState" resultType="int">
+    select count(*) from orderlist where nickname=#{nickname} and orderstate = #{orderstate};
+  </select>
 
+  <select id="getOrderFromToDate" resultType="com.spring.blue.vo.OrderlistVo">
+    select * from orderlist where nickname=#{nickname} and orderdate >= #{fromDate} and orderdate &lt; #{toDate};
+  </select>
+  
+  <select id="getOrderList" resultType="com.spring.blue.vo.OrderlistVo">
+    select * from orderlist where idx = #{idx};
+  </select>
+  
+  <select id="mypageOrderList" resultType="com.spring.blue.vo.OrderlistVo">
+    select * from orderlist where nickname=#{nickname} and 
+      <choose>
+        <when test="receiveflag == '1w' ">
+           orderdate >= date_add(now(),interval -7 day)
+        </when>
+        <when test="receiveflag == 'payed' ">
+           orderstate = '결제완료'
+        </when>
+        <when test="receiveflag == 'shipping' ">
+           orderstate = '배송중'
+        </when>
+        <when test="receiveflag == 'delivered' ">
+           orderstate = '배송완료'
+        </when>
+        <when test="receiveflag == '1m' ">
+           orderdate >= date_add(now(),interval -1 month)
+        </when>
+        <when test="receiveflag == '3m' ">
+           orderdate >= date_add(now(),interval -3 month)
+        </when>
+        <otherwise>
+           orderdate >= date_add(now(),interval -6 month)
+        </otherwise>
+      </choose>
+    order by idx desc;
+  </select>
+  
+  <select id="getReviewCheck" resultType="com.spring.blue.vo.ReviewVo">
+    select * from review where orderIdx=#{orderIdx} and productIdx=#{productIdx};
+  </select>
+
+  <select id="getJoinday" resultType="int">
+    select count(*) from membership WHERE date_format(joinday, '%Y-%m-%d') = curdate();
+  </select>  
+
+  <select id="getShoppingCnt" resultType="int">
+    select count(*) from orderlist WHERE date_format(orderdate, '%Y-%m-%d') = curdate();
+  </select>  
+
+  <select id="getBoardCnt" resultType="int">
+    select count(*) from board WHERE date_format(wdate, '%Y-%m-%d') = curdate();
+  </select>  
+
+  <select id="getGuestCnt" resultType="int">
+    select count(*) from guest WHERE date_format(vdate, '%Y-%m-%d') = curdate();
+  </select>  
+
+  <select id="getPdsCnt" resultType="int">
+    select count(*) from pds WHERE date_format(fdate, '%Y-%m-%d') = curdate();
+  </select>
+  
+  <select id="orderlistState" resultType="com.spring.blue.vo.OrderlistVo">
+    select * from orderlist
+      <if test="selectState != ''">
+        where orderstate=#{selectState}
+      </if>
+    order by orderdate desc;
+  </select>
+  
+  <select id="oneOrderList" resultType="com.spring.blue.vo.OrderlistVo">
+    select * from orderlist where idx=#{idx};
+  </select>
+
+  <update id="updateOrderstate">
+    update orderlist set orderstate=#{state}, statedate=now() where idx=#{idx};  
+  </update>
+
+  <insert id="reviewInput">
+    insert into review values (default, #{vo.orderIdx}, #{vo.productIdx}, #{vo.nickname}, default, #{vo.score}, #{vo.comment});
+  </insert>
+  
+  <!-- 
+  <select id="getReviewCheck" resultType="com.spring.blue.vo.ReviewVo">
+    select * from review where orderIdx=#{orderIdx} and productIdx=#{productIdx};
+  </select>
+   -->
 </mapper>

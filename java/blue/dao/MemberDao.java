@@ -29,4 +29,12 @@ public interface MemberDao {
 
   public void mUpdate(@Param("vo") MemberVo vo);
 
+  public void pointMinus(@Param("pointUse") int pointUse, @Param("nickname") String nickname);
+
+  public void pointPlus(@Param("pointIn") String pointIn, @Param("nickname") String nickname);
+
+  public int getPoint(@Param("nickname") String nickname);
+
+  public String getGender(@Param("nickname") String nickname);
+
 }

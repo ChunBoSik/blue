@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.blue.dao.IndividualDao">
+
+  <insert id="input">
+    insert into individual (indiname,sectname,perprice,price,quantity) values (#{vo.indiname},#{vo.sectname},#{vo.perprice},#{vo.price},#{vo.quantity});
+  </insert>
+  
+  <select id="maxPerPrice" resultType="int">
+    select max(perprice) from individual where sectname=#{sectname};
+  </select>
+
+  <select id="minPerPrice" resultType="int">
+    select min(perprice) from individual where sectname=#{sectname};
+  </select>
+
+  <select id="getIndiList" resultType="com.spring.blue.vo.IndividualVo">
+    select * from individual where sectname=#{sectname};
+  </select>
+<!--   
+  <select id="getReviewList" resultType="com.spring.blue.vo.ReviewVo">
+    select * from review where productidx=#{idx};
+  </select>  
+ -->
+ 
+  <select id="getOptionName" resultType="String">
+    select indiname from individual where idx=#{optionIdx};
+  </select>
+
+  <select id="getOptionPrice" resultType="int">
+    select price from individual where idx=#{optionIdx};
+  </select>
+  
+  <select id="getQuantity" resultType="int">
+    select quantity from individual where idx=#{optionIdx};
+  </select>
+  
+  <select id="getIndiname" resultType="String">
+    select indiname from individual where idx=#{optionIdx};
+  </select>
+</mapper>

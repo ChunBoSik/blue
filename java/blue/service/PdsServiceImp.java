@@ -32,7 +32,6 @@ public class PdsServiceImp implements PdsService {
 
   @Override
   public void upLoad(MultipartFile file, PdsVo vo) {
-    String url = "";
     String saveFileName = "";
     
     try {

@@ -46,6 +46,7 @@ public class MemberController {
       else if(vo.getLevel()==4) strlevel="준회원";
       else strlevel="비회원";
       
+      session.setAttribute("smid", vo.getMid());
       session.setAttribute("snickname", vo.getNickname());
       session.setAttribute("slevel", vo.getLevel());
       session.setAttribute("strlevel", strlevel);

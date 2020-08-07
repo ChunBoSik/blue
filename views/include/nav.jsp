@@ -41,13 +41,16 @@
         <a href="${contextPath}/study/checkTest">체크박스연습</a>
         <a href="${contextPath}/study/loginCheck">로그인유지</a>
         <a href="${contextPath}/study/shopping/product">세션 장바구니</a>
+        <a href="${contextPath}/shopping/admin/shopping/product2/shoppingList">쇼핑몰연습</a>
       </div>
     </div>
     <div class="dropdown">
       <a href="#" class="dropbtn btn btn-Dark">마이페이지</a>
       <div class="dropdown-content">
+        <a href="${contextPath}/schedule/calendar">일정관리</a>
         <a href="${contextPath}/member/mList">회원리스트</a>
         <a href="${contextPath}/member/mUpdate">정보수정</a>
+        <a href="${contextPath}/shopping/admin/shopping/product2/recentorder">My Shop</a>
         <a href="javascript:delMemberCheck()">회원탈퇴</a>
       </div>
     </div>
@@ -75,6 +78,7 @@
           <a href="${contextPath}/admin/file/fList">파일관리</a>
           <a href="${contextPath}/mail/mailForm">메일서비스</a>
           <a href="${contextPath}/shopping/admin/shopping/adminMain" target="_blank">쇼핑몰관리</a>
+          <a href="${contextPath}/shopping/admin/shopping/adminContent">쇼핑몰관리2</a>
         </div>
       </div>
     </c:if>
